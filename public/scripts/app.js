@@ -1,42 +1,45 @@
 "use strict";
 
-var title = "Free Agent Tracker";
+var title = "Activity Tracker";
 var subtitle = "Get active after work!";
-var free_agents = [];
+var activities = [];
 
 // action when a form is submitted. In this case,
-// we add the player
+// we add the activity
 var formDidSubmit = function formDidSubmit(e) {
     e.preventDefault();
 
     var theName = e.target.elements.yourName.value;
-    var theGender = e.target.elements.yourGender.value;
-    var theMessage = e.target.elements.yourMessage.value;
+    var theActivity = e.target.elements.yourActivity.value;
+    var theDistance = e.target.elements.yourDistance.value;
+
+    console.log('name');
+    console.log(theName);
 
     if (theName) {
 
         // add the new free agent!
-        free_agents = free_agents.concat({
+        activities = activities.concat({
             name: theName,
-            gender: theGender,
-            message: theMessage
+            activity: theActivity,
+            distance: theDistance
         });
 
         // update the fields
         e.target.elements.yourName.value = '';
-        e.target.elements.yourGender.value = 'Male';
-        e.target.elements.yourMessage.value = '';
+        e.target.elements.yourActivity.value = 'Running';
+        e.target.elements.yourDistance.value = '';
 
         // re-render the view
         renderView();
     }
 };
 
-// clear the entire player list
-var clearAllPlayers = function clearAllPlayers() {
+// clear the entire activity list
+var clearAllActivities = function clearAllActivities() {
 
-    // reset the free agent players
-    free_agents = [];
+    // reset the free agent activities
+    activities = [];
 
     // re-render the view
     renderView();
@@ -61,37 +64,37 @@ var renderView = function renderView() {
             subtitle,
             " "
         ),
-        free_agents.length <= 0 && React.createElement(
+        activities.length <= 0 && React.createElement(
             "p",
             null,
-            "No free agents available!"
+            "No activities entered!"
         ),
-        free_agents.length > 0 && React.createElement(
+        activities.length > 0 && React.createElement(
             "h3",
             null,
-            "Free Agents List"
+            "Activities List"
         ),
-        free_agents.map(function (player) {
+        activities.map(function (activity) {
             return React.createElement(
                 "li",
-                { key: player.name },
-                "Name: ",
-                player.name,
-                " (",
-                player.gender,
-                ")"
+                { key: activity.name },
+                activity.name,
+                " - ",
+                activity.activity,
+                ", ",
+                activity.distance
             );
         }),
         React.createElement("br", null),
-        free_agents.length > 0 && React.createElement(
+        activities.length > 0 && React.createElement(
             "button",
-            { onClick: clearAllPlayers },
-            "Clear Players"
+            { onClick: clearAllActivities },
+            "Clear Activities"
         ),
         React.createElement(
             "h2",
             null,
-            "Add a New Free Agent"
+            "Add a New Activity"
         ),
         React.createElement(
             "form",
@@ -107,20 +110,30 @@ var renderView = function renderView() {
             React.createElement(
                 "label",
                 null,
-                "Gender: "
+                "Activity: "
             ),
             React.createElement(
                 "select",
-                { name: "yourGender" },
+                { name: "yourActivity" },
                 React.createElement(
                     "option",
-                    { value: "Male" },
-                    "Male"
+                    { value: "Running" },
+                    "Running"
                 ),
                 React.createElement(
                     "option",
-                    { value: "Female" },
-                    "Female"
+                    { value: "Walking" },
+                    "Walking"
+                ),
+                React.createElement(
+                    "option",
+                    { value: "Cycling" },
+                    "Cycling"
+                ),
+                React.createElement(
+                    "option",
+                    { value: "Swimming" },
+                    "Swimming"
                 )
             ),
             React.createElement("br", null),
@@ -128,16 +141,15 @@ var renderView = function renderView() {
             React.createElement(
                 "label",
                 null,
-                "Your Message: "
+                "Distance: "
             ),
-            React.createElement("br", null),
-            React.createElement("textarea", { name: "yourMessage", rows: "8", cols: "100" }),
+            React.createElement("input", { type: "text", name: "yourDistance" }),
             React.createElement("br", null),
             React.createElement("br", null),
             React.createElement(
                 "button",
                 null,
-                "Submit Your Name"
+                "Submit Your Activity"
             )
         )
     );

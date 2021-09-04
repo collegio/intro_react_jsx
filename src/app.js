@@ -1,40 +1,43 @@
-const title = "Free Agent Tracker";
+const title = "Activity Tracker";
 const subtitle = "Get active after work!";
-let free_agents = [];
+let activities = [];
 
 // action when a form is submitted. In this case,
-// we add the player
+// we add the activity
 const formDidSubmit = (e) => {
     e.preventDefault();
 
     const theName = e.target.elements.yourName.value;
-    const theGender = e.target.elements.yourGender.value;
-    const theMessage = e.target.elements.yourMessage.value;
+    const theActivity = e.target.elements.yourActivity.value;
+    const theDistance = e.target.elements.yourDistance.value;
+
+    console.log('name');
+    console.log(theName);
 
     if (theName) {
 
         // add the new free agent!
-        free_agents = free_agents.concat({
+        activities = activities.concat({
             name: theName,
-            gender: theGender,
-            message: theMessage
+            activity: theActivity,
+            distance: theDistance
         });
 
         // update the fields
         e.target.elements.yourName.value = '';
-        e.target.elements.yourGender.value = 'Male';
-        e.target.elements.yourMessage.value = '';
+        e.target.elements.yourActivity.value = 'Running';
+        e.target.elements.yourDistance.value = '';
 
         // re-render the view
         renderView();
     }
 };
 
-// clear the entire player list
-const clearAllPlayers = () => {
+// clear the entire activity list
+const clearAllActivities = () => {
 
-    // reset the free agent players
-    free_agents = [];
+    // reset the free agent activities
+    activities = [];
 
     // re-render the view
     renderView();
@@ -50,34 +53,35 @@ const renderView = () => {
             <h1>{title}</h1>
             <h2>{subtitle} </h2>
 
-            {free_agents.length <= 0 && <p>No free agents available!</p>}
-            {free_agents.length > 0 && <h3>Free Agents List</h3>}
+            {activities.length <= 0 && <p>No activities entered!</p>}
+            {activities.length > 0 && <h3>Activities List</h3>}
 
-            {free_agents.map((player) => <li key={player.name}>Name: {player.name} ({player.gender})</li>)}
+            {activities.map((activity) => <li key={activity.name}>{activity.name} - {activity.activity}, {activity.distance}</li>)}
 
             <br />
 
-            {free_agents.length > 0 && <button onClick={clearAllPlayers}>Clear Players</button>}
+            {activities.length > 0 && <button onClick={clearAllActivities}>Clear Activities</button>}
 
-            <h2>Add a New Free Agent</h2>
+            <h2>Add a New Activity</h2>
             <form onSubmit={formDidSubmit}>
                 <label>Name: </label>
                 <input type="text" name="yourName" />
                 <br />
                 <br />
-                <label>Gender: </label>
-                <select name="yourGender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <label>Activity: </label>
+                <select name="yourActivity">
+                <option value="Running">Running</option>
+                <option value="Walking">Walking</option>
+                <option value="Cycling">Cycling</option>
+                <option value="Swimming">Swimming</option>
                 </select>
                 <br />
                 <br />
-                <label>Your Message: </label>
+                <label>Distance: </label>
+                <input type="text" name="yourDistance" />
                 <br />
-                <textarea name="yourMessage" rows="8" cols="100"></textarea>
                 <br />
-                <br />
-                <button>Submit Your Name</button>
+                <button>Submit Your Activity</button>
             </form>
         </div>
     );
